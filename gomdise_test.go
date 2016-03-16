@@ -27,8 +27,8 @@ func (ts *tsA) GetModelId() string {
 }
 
 func (ts *tsA) SetModelId(key string) {
-	lastIdx := strings.LastIndex(key, ":")
-	ts.id = key[lastIdx:]
+	lastIdx := strings.LastIndex(key, "A")
+	ts.id = key[lastIdx+1:]
 }
 
 type tsB struct {
@@ -131,6 +131,14 @@ func TestSaveTsC(t *testing.T) {
 	tsC := MakeTsC()
 	gom := New(pool)
 	gom.Save(tsC)
+}
+
+func TestSaveWithKeyForMapWithInterfaceValue(t *testing.T) {
+	m := make(map[string]interface{})
+	m["str"] = "key0"
+	m["srt"] = MakeTsA()
+	gom := New(pool)
+	gom.SaveWithKey(m, "TestSaveWithKeyForMapWithInterfaceValue")
 }
 
 func TestFindTsB(t *testing.T) {
